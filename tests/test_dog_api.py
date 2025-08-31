@@ -28,7 +28,17 @@ def test_get_random_dog_by_breed():
     assert breed in data["message"], f"Expected breed {breed} in image URL"
 
 
+def test_get_all_breeds():
+    url = "https://dog.ceo/api/breeds/list/all"
+    response = requests.get(url)
 
+    log.info(f"GET {url} -> {response.status_code}")
+    data = response.json()
+    log.debug(f"Response: {data}")
 
+    assert response.status_code == 200
+    assert data["status"] == "success"
+    assert isinstance(data["message"], dict)
+    assert 'hound' in data["message"],"Expected 'hound' in breeds list"
 
 
